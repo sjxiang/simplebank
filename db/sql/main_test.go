@@ -12,8 +12,8 @@ import (
 
 var testData *Data
 
-// 主测试
-func TestMain(m *testing.M) {
+// 主测试（仅为熟悉 Raw-SQL，不相干代码）
+func VoidTestMain(m *testing.M) {
 	
 	// driver + dsn
 	connector, err := mysql.NewConnector(&mysql.Config{

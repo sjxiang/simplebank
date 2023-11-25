@@ -27,6 +27,6 @@ func createRandomUser(t *testing.T) {
 	require.NotZero(t, id)
 }
 
-func TestCreateUser(t *testing.T) {
-	createRandomUser(t)
-}
+// func TestCreateUser(t *testing.T) {
+// 	createRandomUser(t)
+// }
