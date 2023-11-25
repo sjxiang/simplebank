@@ -126,30 +126,15 @@ sqlc generate
 e.g. 转账 
     
     - 创建交易记录 
-    - 创建账户 1 流水
-    - 创建账户 2 流水
+    - 创建账户 1 流水记录
+    - 创建账户 2 流水记录
     - 更新账户 1 余额
     - 更新账户 2 余额
-
-事务要满足 ACID 属性
-
-原子性
-要么事务的所有操作成功完成，要么整个事务失败，一切都回滚，数据库不变
-
-一致性
-写入数据库的所有数据，必须按照预定义的规则有效（包括约束、级联、触发器）
-
-隔离性
-并发执行的事务，互相不影响，多个隔离级别，定义一个事务的更改何时对其他事务可见
-
-持久性
-事务成功，写入的数据必须保留在硬盘，发生故障也不会丢失
-
 
 
 7. 死锁
 
-业务上禁用外键
+业务上禁用外键，约束太搞了
 
 begin;
 set transaction isolation level read committed;
@@ -161,17 +146,18 @@ commit;
 隔离级别，以及读异常（脏读、幻读 ...）
 
 
-8. 
-
-10: 为 Golang + Postgres 设置 Github 操作以运行自动化测试 -->
 
 
 <!-- # web [Gin]
 
+1. 
+
+
 
  -->
-<!-- 第2节: 构建 RESTful HTTP JSON API [ Gin ]
-11: 使用 Gin 在 Go 中实现 RESTful HTTP API
+
+
+<!-- 11: 使用 Gin 在 Go 中实现 RESTful HTTP API
 12: 在 Go with Viper 中从文件和环境变量加载配置
 13: 在 Go 中测试 HTTPAPI 并实现100% 覆盖率的模拟数据库
 14: 使用自定义参数验证器实现转账 API
@@ -239,19 +225,6 @@ commit;
 63: 使用模拟 DB 和 Redis 对 gRPC API 进行单元测试
 64: 如何测试需要身份验证的 gRPC API -->
 
-### Section 5: Asynchronous processing with background workers [Asynq + Redis]
-
-- Lecture #54: [Implement background worker in Go with Redis and Asynq](https://www.youtube.com/watch?v=XOXdYs8mKkI&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #55: [Integrate async worker to Go web server](https://www.youtube.com/watch?v=eXYKGPEXocM&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #56: [Send async tasks to Redis within a DB transaction](https://www.youtube.com/watch?v=ZfFxdPbgN88&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #57: [How to handle errors and print logs for Go Asynq workers](https://www.youtube.com/watch?v=YgfmPIJRg2U&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #58: [A bit of delay might be good for your async tasks](https://www.youtube.com/watch?v=ILNiZgseLUI&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #59: [How to send emails in Go via Gmail](https://www.youtube.com/watch?v=L9TbZxpykLQ&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #60: [How to skip test in Go and config test flag in vscode](https://www.youtube.com/watch?v=0UwZGM9iqTE&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #61: [Email verification in Go: design DB and send email](https://www.youtube.com/watch?v=lEHkwDPHrcc&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #62: [Implement email verification API in Go](https://www.youtube.com/watch?v=50ZN-4UNwnY&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #63: [Unit test gRPC API with mock DB & Redis](https://www.youtube.com/watch?v=QFxZlKb7W2k&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #64: [How to test a gRPC API that requires authentication](https://www.youtube.com/watch?v=MI7ucbAlZPM&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
 
 
 <!-- 第6部分: 提高服务器的稳定性和安全性
@@ -262,160 +235,3 @@ commit;
 69: 如何在 Go 中安装和使用二进制包
 70: 在 Go 中实现以角色为基础的存取控制(RBAC) -->
 
-### Section 6: Improve the stability and security of the server
-
-- Lecture #65: [Config sqlc version 2 for Go and Postgres](https://www.youtube.com/watch?v=FfXE245HZB4&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #66: [Switch DB driver from lib/pq to pgx](https://www.youtube.com/watch?v=m9gYy5U0edQ&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #67: [How to handle DB errors with PGX driver](https://www.youtube.com/watch?v=9vf3zxrMUgw&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #68: [Docker compose: port + volume mapping](https://www.youtube.com/watch?v=nJBT5SKENAw&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #69: [How to install & use binary packages in Go](https://www.youtube.com/watch?v=TnJ4ssoNvkY&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-- Lecture #70: [Implement role-based access control (RBAC) in Go](https://www.youtube.com/watch?v=Py7dRhtuJ3E&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE)
-
-
-## Setup local development
-
-### Install tools
-
-- [Docker desktop](https://www.docker.com/products/docker-desktop)
-- [TablePlus](https://tableplus.com/)
-- [Golang](https://golang.org/)
-- [Migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
-
-
-    ```bash
-    brew install golang-migrate
-    ```
-
-- [DB Docs](https://dbdocs.io/docs)
-
-    ```bash
-    npm install -g dbdocs
-    dbdocs login
-    ```
-
-- [DBML CLI](https://www.dbml.org/cli/#installation)
-
-    ```bash
-    npm install -g @dbml/cli
-    dbml2sql --version
-    ```
-
-- [Sqlc](https://github.com/kyleconroy/sqlc#installation)
-
-    ```bash
-    brew install sqlc
-    ```
-
-- [Gomock](https://github.com/golang/mock)
-
-    ``` bash
-    go install github.com/golang/mock/mockgen@v1.6.0
-    ```
-
-### Setup infrastructure
-
-- Create the bank-network
-
-    ``` bash
-    make network
-    ```
-
-- Start postgres container:
-
-    ```bash
-    make postgres
-    ```
-
-- Create simple_bank database:
-
-    ```bash
-    make createdb
-    ```
-
-- Run db migration up all versions:
-
-    ```bash
-    make migrateup
-    ```
-
-- Run db migration up 1 version:
-
-    ```bash
-    make migrateup1
-    ```
-
-- Run db migration down all versions:
-
-    ```bash
-    make migratedown
-    ```
-
-- Run db migration down 1 version:
-
-    ```bash
-    make migratedown1
-    ```
-
-### Documentation
-
-- Generate DB documentation:
-
-    ```bash
-    make db_docs
-    ```
-
-- Access the DB documentation at [this address](https://dbdocs.io/techschool.guru/simple_bank). Password: `secret`
-
-### How to generate code
-
-- Generate schema SQL file with DBML:
-
-    ```bash
-    make db_schema
-    ```
-
-- Generate SQL CRUD with sqlc:
-
-    ```bash
-    make sqlc
-    ```
-
-- Generate DB mock with gomock:
-
-    ```bash
-    make mock
-    ```
-
-- Create a new db migration:
-
-    ```bash
-    make new_migration name=<migration_name>
-    ```
-
-### How to run
-
-- Run server:
-
-    ```bash
-    make server
-    ```
-
-- Run test:
-
-    ```bash
-    make test
-    ```
-
-## Deploy to kubernetes cluster
-
-- [Install nginx ingress controller](https://kubernetes.github.io/ingress-nginx/deploy/#aws):
-
-    ```bash
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.48.1/deploy/static/provider/aws/deploy.yaml
-    ```
-
-- [Install cert-manager](https://cert-manager.io/docs/installation/kubernetes/):
-
-    ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.yaml
-    ```
