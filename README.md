@@ -160,27 +160,38 @@ commit;
 隔离级别，以及读异常（脏读、幻读 ...）
 
 
+ -->
+
 
 
 <!-- 
+
 # web [Gin]
 
 1. 设计 RESTful 风格的 HTTP API 
 各种输入，参数绑定参数校验
 
-2. viper 加载配置
-3. 自定义参数验证器 
+2. viper 加载配置文件（.env）
+3. 自定义参数验证器
 4. 新增用户表
 5. 处理数据库错误（约束）
-6. 安全加密
+6. 安全加密（bcrypt）
 7. 身份认证，jwt、paseto
-8. 中间件
+8. 中间件（拦截器）
+9. 授权（不是你的账户，不能看；不是你的账户，不能转账）
 
--->
+ -->
+
+
 
 
 <!-- 第3节: 将应用程序部署到生产环境[ Kubernetes + AWS ]
 23: 使用多阶段 Dockerfile 构建最小的 Golang Docker 映像
+
+'feature'
+git checkout -b ft/docker
+
+
 24: 如何使用 docker 网络连接两个独立的容器
 25: 如何使用 wait-for.sh 编写 docker-撰写文件和控制服务启动订单
 26: 如何创建免费层 AWS 帐户
