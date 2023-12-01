@@ -186,14 +186,42 @@ commit;
 
 
 <!-- 第3节: 将应用程序部署到生产环境[ Kubernetes + AWS ]
-23: 使用多阶段 Dockerfile 构建最小的 Golang Docker 映像
 
-'feature'
+1. 打包镜像
+
+# 新增 'feature/docker' 分支
 git checkout -b ft/docker
+git status
+git add .
+git commit -m "update comment"
 
+# 推送
+git push origin ft/docker
+
+remote: Create a pull request for 'ft/docker' on GitHub by visiting:
+remote:      https://github.com/sjxiang/simplebank/pull/new/ft/docker
+remote: 
+To github.com:sjxiang/simplebank.git
+
+# 提交的 pr，打开链接、检查、同意、合并
+
+docker build -t simplebank:latest .
+docker images
+
+
+2. docker 网络
+docker inspect <container_name_or_id>
+docker network ls
+docker network inspect bridge
+
+docker network create <bank-network>
+docker network connect bank-network <container_name_or_id>
+
+3. 
 
 24: 如何使用 docker 网络连接两个独立的容器
 25: 如何使用 wait-for.sh 编写 docker-撰写文件和控制服务启动订单
+
 26: 如何创建免费层 AWS 帐户
 27: 使用 Github 操作自动构建和推送 Docker 映像到 AWS ECR
 28: 如何在 AWS RDS 上创建产品数据库
@@ -205,6 +233,8 @@ git checkout -b ft/docker
 34: 如何使用 inress 将交通路由到 Kubernetes 的不同服务
 35: 利用 Let’s Encrypt 在 Kubernetes 自动发布 TLS 证书
 36: 使用 Github Action 自动部署到 Kubernetes -->
+
+
 
 
 
