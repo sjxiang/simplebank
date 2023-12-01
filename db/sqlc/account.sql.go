@@ -131,7 +131,9 @@ func (q *Queries) ListAccounts(ctx context.Context, arg ListAccountsParams) ([]A
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Account{}
+
+	// var items []Account // 变量已声明，但未初始化，如果查询为空，返回零值 nil => json 序列化为 null
+	items := []Account{}   // 简短声明，如果查询为空，返回空切片 => json 序列化为 [] 空列表 
 	for rows.Next() {
 		var i Account
 		if err := rows.Scan(

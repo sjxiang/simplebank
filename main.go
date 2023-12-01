@@ -30,6 +30,7 @@ import (
 )
 
 func main() {
+	// 加载配置
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
@@ -39,11 +40,13 @@ func main() {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 
+	// 连接 db
 	connPool, err := pgxpool.New(context.Background(), config.DBSource)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
 
+	// db 迁移
 	runDBMigration(config.MigrationURL, config.DBSource)
 
 	store := db.NewStore(connPool)
@@ -152,6 +155,7 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 		log.Fatal().Err(err).Msg("cannot start HTTP gateway server")
 	}
 }
+
 
 func runGinServer(config util.Config, store db.Store) {
 	server, err := api.NewServer(config, store)

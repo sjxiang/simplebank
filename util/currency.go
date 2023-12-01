@@ -2,15 +2,14 @@ package util
 
 // Constants for all supported currencies
 const (
-	USD = "USD"
-	EUR = "EUR"
-	CAD = "CAD"
+	ETH = "以太坊"
+	BTC = "比特币"
 )
 
-// IsSupportedCurrency returns true if the currency is supported 支持不支持
+// IsSupportedCurrency 是否支持该币种
 func IsSupportedCurrency(currency string) bool {
 	switch currency {
-	case USD, EUR, CAD:
+	case ETH, BTC:
 		return true
 	}
 	return false

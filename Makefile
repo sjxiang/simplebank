@@ -21,6 +21,7 @@ dropdb:
 mysql:
 	docker run --name mysql8 -p 3306:3306  -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0
 
+# 打开 mysql 控制台
 mysql_cli:
 	docker exec -it mysql8 bash 
 # mysql -uroot -psecret
@@ -56,10 +57,6 @@ test:
 
 server:
 	go run main.go
-
-mock:
-	mockgen -package mockdb -destination db/mock/store.go github.com/techschool/simplebank/db/sqlc Store
-	mockgen -package mockwk -destination worker/mock/distributor.go github.com/techschool/simplebank/worker TaskDistributor
 
 proto:
 	rm -f pb/*.go

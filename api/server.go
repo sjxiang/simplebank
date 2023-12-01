@@ -33,11 +33,12 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 		tokenMaker: tokenMaker,
 	}
 
-	// 货币字段校验
+	// 字段校验，注册
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
 
+	// 注册路由
 	server.setupRouter()
 	return server, nil
 }

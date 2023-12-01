@@ -61,8 +61,9 @@ CREATE TABLE "sessions" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
--- 查流水
-CREATE INDEX ON "accounts" ("owner");
+
+-- 索引
+CREATE INDEX IF NOT EXISTS "accounts_owner" ON "accounts" ("owner");
 
 CREATE UNIQUE INDEX ON "accounts" ("owner", "currency");
 
@@ -74,14 +75,14 @@ CREATE INDEX ON "transfers" ("to_account_id");
 
 CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
 
--- 支出 -、收入 +
+-- 注释，流水条目有正有负，支出 -、收入 +
 COMMENT ON COLUMN "entries"."amount" IS 'can be negative or positive';
 
--- 转账必须是正数
+-- 注释，转账起码是正的吧
 COMMENT ON COLUMN "transfers"."amount" IS 'must be positive';
 
 
--- 约束
+-- 外键约束
 ALTER TABLE "verify_emails" ADD FOREIGN KEY ("username") REFERENCES "users" ("username");
 
 ALTER TABLE "accounts" ADD FOREIGN KEY ("owner") REFERENCES "users" ("username");

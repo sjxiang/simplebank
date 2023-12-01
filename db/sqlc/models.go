@@ -46,9 +46,10 @@ type Transfer struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
 type User struct {
 	Username          string    `json:"username"`
-	HashedPassword    string    `json:"hashed_password"`
+	HashedPassword    string    `json:"hashed_password,omitempty"`
 	FullName          string    `json:"full_name"`
 	Email             string    `json:"email"`
 	PasswordChangedAt time.Time `json:"password_changed_at"`
@@ -56,6 +57,19 @@ type User struct {
 	IsEmailVerified   bool      `json:"is_email_verified"`
 	Role              string    `json:"role"`
 }
+
+type UserForExport struct {
+
+}
+
+// 另一种，输出序列化方式，仅供参考
+func (resp User) ExportForFeedback() User {
+	return User{
+		Username: resp.Username,
+		// 补充
+	}
+}
+
 
 type VerifyEmail struct {
 	ID         int64     `json:"id"`

@@ -1,7 +1,8 @@
 
 # Simple Bank
 
-
+> 3D
+> Design 设计、Develop 开发、Deploy 部署
 
 2. In the 2nd section, you will learn how to build a set of RESTful HTTP APIs using Gin - one of the most popular Golang frameworks for building web services. This includes everything from loading app configs, mocking DB for more robust unit tests, handling errors, authenticating users, and securing the APIs with JWT and PASETO access tokens.  
 
@@ -21,7 +22,8 @@ This course is designed with a lot of details, so that everyone, even with very 
 
 
 
-<!-- # win 开发环境配置
+<!-- 
+# win 开发环境配置
 
 wsl --install
 
@@ -46,7 +48,8 @@ docker general 设置
 -->
 
 
-<!-- # Postgres  
+<!-- 
+# Postgres  
 
 1. 表结构设计
 https://dbdiagram.io/d，拉个图倒是不赖
@@ -78,7 +81,7 @@ https://dbdiagram.io/d，拉个图倒是不赖
     查看容器日志
     docker logs <container_name_or_id>
 
-    进入容器控制台，运行 cmd
+    进入容器的控制台
     docker exec -it <container_name_or_id> <command> [args]
 
     停止正在运行的容器
@@ -91,13 +94,24 @@ https://dbdiagram.io/d，拉个图倒是不赖
     docker rm <container_name_or_id>
 
 
-3. 数据库迁移脚本
+3. 数据库迁移
 
 文档 https://github.com/golang-migrate/migrate
 
-migrate create -ext sql -dir db/migration -seq $(name)
-migrate up   
-migrate down
+
+$ migrate create -ext sql -dir db/migration -seq $(name) 
+# 扩展名，后缀
+# 路径
+# 有序，前缀
+# 文件名，填补中间 
+
+$ migrate -path db/migration -database "$(DB_URL)" -verbose down 1
+# 回滚上一次 1
+
+$ migrate -path db/migration -database "$(DB_URL)" -verbose up 1
+# 升级 1
+
+
 
 
 4. sqlc 代码生成
@@ -148,27 +162,21 @@ commit;
 
 
 
-<!-- # web [Gin]
+<!-- 
+# web [Gin]
 
-1. 
+1. 设计 RESTful 风格的 HTTP API 
+各种输入，参数绑定参数校验
 
+2. viper 加载配置
+3. 自定义参数验证器 
+4. 新增用户表
+5. 处理数据库错误（约束）
+6. 安全加密
+7. 身份认证，jwt、paseto
+8. 中间件
 
-
- -->
-
-
-<!-- 11: 使用 Gin 在 Go 中实现 RESTful HTTP API
-12: 在 Go with Viper 中从文件和环境变量加载配置
-13: 在 Go 中测试 HTTPAPI 并实现100% 覆盖率的模拟数据库
-14: 使用自定义参数验证器实现转账 API
-15: 在 PostgreSQL 中添加具有唯一和外键约束的用户表
-16: 如何正确处理 Golang 的数据库错误
-17: 如何安全地存储密码? 在 Go with Bcrypt 中散列密码！
-18: 如何使用自定义 gomock 匹配器编写更强大的单元测试
-19: 为什么 PASETO 比 JWT 更适合基于令牌的身份验证？
-20: 如何在 Golang 创建和验证 JWT & PASETO 令牌
-21: 在 Go 中实现返回 PASETO 或 JWT 访问令牌的登录用户 API
-22: 使用金在 Golang 实现身份验证中间件和授权规则 -->
+-->
 
 
 <!-- 第3节: 将应用程序部署到生产环境[ Kubernetes + AWS ]
@@ -189,7 +197,8 @@ commit;
 
 
 
-<!-- # session + gRPC
+<!-- 
+# session + gRPC
 
 第4节: 高级后端主题[会话 + gRPC ]
 37: 如何使用刷新令牌管理用户会话-Golang
@@ -211,6 +220,9 @@ commit;
 53: 如何在 Go 中编写 HTTP 日志记录器中间件 -->
 
 <!-- 异步 [Asynq + Redis]
+
+# Asynq + Redis
+
 
 第5节: 使用后台工作者进行异步处理[ Asynq + Redis ]
 54: 在 Go with Redis 和 Asynq 中实现后台 worker

@@ -13,8 +13,8 @@ import (
 )
 
 type createUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=6"`
+	Username string `json:"username" binding:"required,alphanum"`  // ASCII 码，常见字符
+	Password string `json:"password" binding:"required,min=6"`     // 密码长度至少 6 个字符
 	FullName string `json:"full_name" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 }
@@ -36,6 +36,7 @@ func newUserResponse(user db.User) userResponse {
 		CreatedAt:         user.CreatedAt,
 	}
 }
+
 
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
@@ -67,6 +68,8 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
+	// rsp :=  user.ExportForFeedback()
+	
 	rsp := newUserResponse(user)
 	ctx.JSON(http.StatusOK, rsp)
 }

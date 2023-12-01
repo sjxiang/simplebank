@@ -6,15 +6,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	
 	db "github.com/sjxiang/simplebank/db/sqlc"
 	"github.com/sjxiang/simplebank/token"
 )
 
 type transferRequest struct {
-	FromAccountID int64  `json:"from_account_id" binding:"required,min=1"`
+	FromAccountID int64  `json:"from_account_id" binding:"required,min=1"` // 最小值为 1
 	ToAccountID   int64  `json:"to_account_id" binding:"required,min=1"`
-	Amount        int64  `json:"amount" binding:"required,gt=0"`
-	Currency      string `json:"currency" binding:"required,currency"`
+	Amount        int64  `json:"amount" binding:"required,gt=0"`           // 转账金额数值要大于 0
+	Currency      string `json:"currency" binding:"required,currency"`     
 }
 
 func (server *Server) createTransfer(ctx *gin.Context) {
@@ -29,6 +30,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 		return
 	}
 
+	// 授权（不是自己的账户，不能转账）
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	if fromAccount.Owner != authPayload.Username {
 		err := errors.New("from account doesn't belong to the authenticated user")
@@ -57,6 +59,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 }
 
 func (server *Server) validAccount(ctx *gin.Context, accountID int64, currency string) (db.Account, bool) {
+	// 转账对象是否存在
 	account, err := server.store.GetAccount(ctx, accountID)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
@@ -68,6 +71,7 @@ func (server *Server) validAccount(ctx *gin.Context, accountID int64, currency s
 		return account, false
 	}
 
+	// 币种不匹配
 	if account.Currency != currency {
 		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", account.ID, account.Currency, currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))

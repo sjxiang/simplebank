@@ -10,12 +10,13 @@ import (
 
 // PasetoMaker is a PASETO token maker
 type PasetoMaker struct {
-	paseto       *paseto.V2
-	symmetricKey []byte
+	paseto       *paseto.V2  
+	symmetricKey []byte   // 对称密钥
 }
 
 // NewPasetoMaker creates a new PasetoMaker
 func NewPasetoMaker(symmetricKey string) (Maker, error) {
+	// 校验长度
 	if len(symmetricKey) != chacha20poly1305.KeySize {
 		return nil, fmt.Errorf("invalid key size: must be exactly %d characters", chacha20poly1305.KeySize)
 	}

@@ -9,7 +9,10 @@ CREATE TABLE "users" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
+-- 外键约束
 ALTER TABLE "accounts" ADD FOREIGN KEY ("owner") REFERENCES "users" ("username");
 
--- CREATE UNIQUE INDEX ON "accounts" ("owner", "currency");
+-- CREATE UNIQUE INDEX ON "accounts" ("owner", "currency"); 
+-- 复合约束
+-- 两个 SQL 语句有啥差异
 ALTER TABLE "accounts" ADD CONSTRAINT "owner_currency_key" UNIQUE ("owner", "currency");

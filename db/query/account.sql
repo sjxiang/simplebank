@@ -17,6 +17,7 @@ WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE;
 
 -- name: ListAccounts :many
+-- 授权的问题，只能列自己名下的账户
 SELECT * FROM accounts
 WHERE owner = $1
 ORDER BY id
