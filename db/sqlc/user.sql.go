@@ -71,6 +71,7 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 	return i, err
 }
 
+// 可选参数（依靠 COALESCE 特性）
 const updateUser = `-- name: UpdateUser :one
 UPDATE users
 SET

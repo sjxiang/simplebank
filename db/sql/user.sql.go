@@ -106,7 +106,7 @@ func (data *Data) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, e
 	for rows.Next() {
 		var i User
 		
-		// 常见错误：1、漏了指针 2. 结果集顺序颠倒 
+		// 常见错误：1、漏了指针 2. 结果集顺序颠倒（和 select 字段 顺序对上）
 		if err := rows.Scan(
 			&i.Username,
 			&i.HashedPassword,

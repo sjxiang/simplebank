@@ -4,10 +4,10 @@ package pb;
 
 import "user.proto";
 
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/sjxiang/simplebank/pb";
 
 message CreateUserRequest {
-    string username = 1;
+    string username = 1;  // 必填字段
     string full_name = 2;
     string email = 3;
     string password = 4;

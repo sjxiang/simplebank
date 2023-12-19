@@ -9,10 +9,10 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/hibiken/asynq"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/rakyll/statik/fs"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -21,7 +21,6 @@ import (
 
 	"github.com/sjxiang/simplebank/api"
 	db "github.com/sjxiang/simplebank/db/sqlc"
-	_ "github.com/sjxiang/simplebank/doc/statik"
 	"github.com/sjxiang/simplebank/gapi"
 	"github.com/sjxiang/simplebank/mail"
 	"github.com/sjxiang/simplebank/pb"
@@ -46,7 +45,7 @@ func main() {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
 
-	// db 迁移
+	// db 迁移脚本
 	runDBMigration(config.MigrationURL, config.DBSource)
 
 	store := db.NewStore(connPool)
@@ -58,9 +57,11 @@ func main() {
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
 	go runTaskProcessor(config, redisOpt, store)
 	go runGatewayServer(config, store, taskDistributor)
+
 	runGrpcServer(config, store, taskDistributor)
 }
 
+// 生产中，有专门的 DBA 管理
 func runDBMigration(migrationURL string, dbSource string) {
 	migration, err := migrate.New(migrationURL, dbSource)
 	if err != nil {
@@ -93,6 +94,7 @@ func runGrpcServer(config util.Config, store db.Store, taskDistributor worker.Ta
 	gprcLogger := grpc.UnaryInterceptor(gapi.GrpcLogger)
 	grpcServer := grpc.NewServer(gprcLogger)
 	pb.RegisterSimpleBankServer(grpcServer, server)
+	// 注册反射（方便 gRPC 客户端了解服务端有哪些可用 RPC，以及如何调用）
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GRPCServerAddress)
@@ -113,6 +115,7 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
 
+	// 参数，驼峰转下划线
 	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
 		MarshalOptions: protojson.MarshalOptions{
 			UseProtoNames: true,
@@ -134,14 +137,6 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
-
-	statikFS, err := fs.New()
-	if err != nil {
-		log.Fatal().Err(err).Msg("cannot create statik fs")
-	}
-
-	swaggerHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
-	mux.Handle("/swagger/", swaggerHandler)
 
 	listener, err := net.Listen("tcp", config.HTTPServerAddress)
 	if err != nil {

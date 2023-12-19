@@ -8,9 +8,9 @@ sql:
       package: "db"
       out: "db/sqlc"
       sql_package: "pgx/v5"
-      emit_json_tags: true
-      emit_interface: true      # 
-      emit_empty_slices: true   # 返回空切片，而不是 nil 零值
+      emit_json_tags: true      # 希望生成 model 有 json tag 
+      emit_interface: true      # 方便 mock 测试
+      emit_empty_slices: true   # 查询返回空切片，而不是 nil 零值
       overrides:
         - db_type: "timestamptz"
           go_type: "time.Time"

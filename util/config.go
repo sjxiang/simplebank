@@ -16,6 +16,8 @@ type Config struct {
 	HTTPServerAddress    string        `mapstructure:"HTTP_SERVER_ADDRESS"`
 	GRPCServerAddress    string        `mapstructure:"GRPC_SERVER_ADDRESS"`
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
+	
+	// 这个都能映射，666
 	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
 	EmailSenderName      string        `mapstructure:"EMAIL_SENDER_NAME"`
@@ -29,6 +31,7 @@ func LoadConfig(path string) (config Config, err error) {
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")
 
+	// 环境变量重载（docker-compose network 或者 docker 的区别）
 	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()

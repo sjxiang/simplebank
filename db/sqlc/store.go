@@ -16,6 +16,7 @@ type Store interface {
 
 // SQLStore provides all functions to execute SQL queries and transactions
 type SQLStore struct {
+	// 连接池
 	connPool *pgxpool.Pool
 	*Queries
 }

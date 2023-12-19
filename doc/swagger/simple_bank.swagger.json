@@ -4,9 +4,9 @@
     "title": "Simple Bank API",
     "version": "1.2",
     "contact": {
-      "name": "Tech School",
-      "url": "https://github.com/techschool",
-      "email": "techschool.guru@gmail.com"
+      "name": "crud tech project",
+      "url": "https://github.com/sjxiang/simplebank",
+      "email": "1535484943@qq.com"
     }
   },
   "tags": [
@@ -168,7 +168,8 @@
       "type": "object",
       "properties": {
         "username": {
-          "type": "string"
+          "type": "string",
+          "title": "必填字段"
         },
         "fullName": {
           "type": "string"
@@ -302,6 +303,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }

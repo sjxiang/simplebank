@@ -12,3 +12,6 @@ type Maker interface {
 	// VerifyToken checks if the token is valid or not
 	VerifyToken(token string) (*Payload, error)
 }
+
+
+// jwt v4 接口简单

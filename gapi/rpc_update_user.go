@@ -34,8 +34,8 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 	arg := db.UpdateUserParams{
 		Username: req.GetUsername(),
 		FullName: pgtype.Text{
-			String: req.GetFullName(),
-			Valid:  req.FullName != nil,
+			String: req.GetFullName(),    // nil，零值 ""
+			Valid:  req.FullName != nil,  // false，可选参数
 		},
 		Email: pgtype.Text{
 			String: req.GetEmail(),

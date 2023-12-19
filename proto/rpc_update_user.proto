@@ -4,11 +4,11 @@ package pb;
 
 import "user.proto";
 
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/sjxiang/simplebank/pb";
 
 message UpdateUserRequest {
     string username = 1;
-    optional string full_name = 2;
+    optional string full_name = 2;  // 可选
     optional string email = 3;
     optional string password = 4;
 }

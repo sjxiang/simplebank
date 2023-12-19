@@ -43,12 +43,6 @@ migratedown1:
 new_migration:
 	migrate create -ext sql -dir db/migration -seq $(name)
 
-db_docs:
-	dbdocs build doc/db.dbml
-
-db_schema:
-	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
-
 sqlc:
 	sqlc generate
 
@@ -61,15 +55,29 @@ server:
 proto:
 	rm -f pb/*.go
 	rm -f doc/swagger/*.swagger.json
-	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+	protoc --proto_path=proto \
+	--go_out=pb --go_opt=paths=source_relative \
 	--go-grpc_out=pb --go-grpc_opt=paths=source_relative \
 	--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
+	--experimental_allow_proto3_optional \
 	--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
 	proto/*.proto
-	statik -src=./doc/swagger -dest=./doc
+# statik -src=./doc/swagger -dest=./doc
 
+
+# --{$plugin_name}_out={$out_dir} --{$plugin_name}_opt={$options}
+# plugin_name
+# 表示要执行的插件名；例如 "protoc-gen-go"，那么插件名为 "go"
+# out_dir
+# 表示插件生成代码的路径；如无特殊需求，一般指定为 "." 即可
+# options
+# 表示传递给插件的选项；通常会传递一些类似 "go module" 等信息
+
+
+# 测试 gRPC
 evans:
 	evans --host localhost --port 9090 -r repl
+
 
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine

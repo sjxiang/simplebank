@@ -7,6 +7,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+// 转换
 func convertUser(user db.User) *pb.User {
 	return &pb.User{
 		Username:          user.Username,

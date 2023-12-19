@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-package pb;
+package pb;  // 便于 proto 文件归档
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/techschool/simplebank/pb";
+option go_package = "github.com/sjxiang/simplebank/pb";  
+// 期望生成的 go 文件放哪个目录，拼写全路径，最佳
+// 相对的 workspace 也行（无所谓，大不了生成后，手动删）
 
 message User {
     string username = 1;

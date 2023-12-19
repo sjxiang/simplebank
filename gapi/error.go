@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// 冲突字段
 func fieldViolation(field string, err error) *errdetails.BadRequest_FieldViolation {
 	return &errdetails.BadRequest_FieldViolation{
 		Field:       field,
@@ -13,6 +14,7 @@ func fieldViolation(field string, err error) *errdetails.BadRequest_FieldViolati
 	}
 }
 
+// 无效参数错误
 func invalidArgumentError(violations []*errdetails.BadRequest_FieldViolation) error {
 	badRequest := &errdetails.BadRequest{FieldViolations: violations}
 	statusInvalid := status.New(codes.InvalidArgument, "invalid parameters")

@@ -16,6 +16,9 @@ type Account struct {
 	Balance   int64     `json:"balance"`
 	Currency  string    `json:"currency"`
 	CreatedAt time.Time `json:"created_at"`
+	// "github.com/jackc/pgx/v5/pgtype" 都要替换
+	// pgtype.Timestamptz
+	// pgtype.UUID
 }
 
 type Entry struct {

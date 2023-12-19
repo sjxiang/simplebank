@@ -11,25 +11,30 @@ import (
 	"github.com/sjxiang/simplebank/util"
 	"github.com/sjxiang/simplebank/val"
 	"github.com/sjxiang/simplebank/worker"
+
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	// 校验请求字段
 	violations := validateCreateUserRequest(req)
+	// 至少有一个无效字段
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
 
+	// 哈希
 	hashedPassword, err := util.HashPassword(req.GetPassword())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to hash password: %s", err)
 	}
 
+	// db 操作
 	arg := db.CreateUserTxParams{
 		CreateUserParams: db.CreateUserParams{
-			Username:       req.GetUsername(),
+			Username:       req.GetUsername(),  // getter
 			HashedPassword: hashedPassword,
 			FullName:       req.GetFullName(),
 			Email:          req.GetEmail(),
@@ -51,11 +56,13 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 	txResult, err := server.store.CreateUserTx(ctx, arg)
 	if err != nil {
 		if db.ErrorCode(err) == db.UniqueViolation {
-			return nil, status.Errorf(codes.AlreadyExists, err.Error())
+			return nil, status.Errorf(codes.AlreadyExists, err.Error())  // username already exists
 		}
+		
 		return nil, status.Errorf(codes.Internal, "failed to create user: %s", err)
 	}
 
+	// 响应
 	rsp := &pb.CreateUserResponse{
 		User: convertUser(txResult.User),
 	}

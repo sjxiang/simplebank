@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	// 昵称
+	// 昵称（小写字母、数字、下划线）
 	isValidUsername = regexp.MustCompile(`^[a-z0-9_]+$`).MatchString
-	// 姓名
+	// 姓名（大小写字母、）
 	isValidFullName = regexp.MustCompile(`^[a-zA-Z\s]+$`).MatchString
 )
 
@@ -29,7 +29,7 @@ func ValidateUsername(value string) error {
 	}
 	// 再校验是否合规
 	if !isValidUsername(value) {
-		return fmt.Errorf("必须只包含小写字母、数字或下划线")
+		return fmt.Errorf("只能有小写字母、数字或下划线组成")
 	}
 	return nil
 }
@@ -39,7 +39,7 @@ func ValidateFullName(value string) error {
 		return err
 	}
 	if !isValidFullName(value) {
-		return fmt.Errorf("必须只包含字母或空格")
+		return fmt.Errorf("只能有字母或空格组成")
 	}
 	return nil
 }
@@ -52,15 +52,17 @@ func ValidateEmail(value string) error {
 	if err := ValidateString(value, 3, 200); err != nil {
 		return err
 	}
+
+	// 验证邮箱地址
 	if _, err := mail.ParseAddress(value); err != nil {
-		return fmt.Errorf("不是有效的电子邮件地址")
+		return fmt.Errorf("不是有效的 email")
 	}
 	return nil
 }
 
 func ValidateEmailId(value int64) error {
 	if value <= 0 {
-		return fmt.Errorf("必须是正整数")
+		return fmt.Errorf("只能是正整数")
 	}
 	return nil
 }

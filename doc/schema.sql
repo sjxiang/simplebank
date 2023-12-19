@@ -56,13 +56,13 @@ CREATE TABLE "sessions" (
   "refresh_token" varchar NOT NULL,
   "user_agent" varchar NOT NULL,
   "client_ip" varchar NOT NULL,
-  "is_blocked" boolean NOT NULL DEFAULT false,
+  "is_blocked" boolean NOT NULL DEFAULT false COMMENT '拉黑',
   "expires_at" timestamptz NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 
--- 索引
+-- 建索引
 CREATE INDEX IF NOT EXISTS "accounts_owner" ON "accounts" ("owner");
 
 CREATE UNIQUE INDEX ON "accounts" ("owner", "currency");
@@ -75,14 +75,14 @@ CREATE INDEX ON "transfers" ("to_account_id");
 
 CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
 
--- 注释，流水条目有正有负，支出 -、收入 +
+-- 添加注释，流水条目有正有负，支出 -、收入 +
 COMMENT ON COLUMN "entries"."amount" IS 'can be negative or positive';
 
--- 注释，转账起码是正的吧
+-- 添加注释，转账起码是正的吧
 COMMENT ON COLUMN "transfers"."amount" IS 'must be positive';
 
 
--- 外键约束
+-- 添加外键约束
 ALTER TABLE "verify_emails" ADD FOREIGN KEY ("username") REFERENCES "users" ("username");
 
 ALTER TABLE "accounts" ADD FOREIGN KEY ("owner") REFERENCES "users" ("username");
