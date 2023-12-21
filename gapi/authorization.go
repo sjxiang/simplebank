@@ -21,6 +21,7 @@ func (server *Server) authorizeUser(ctx context.Context, accessibleRoles []strin
 		return nil, fmt.Errorf("missing metadata")
 	}
 
+	// JWT
 	values := md.Get(authorizationHeader)
 	if len(values) == 0 {
 		return nil, fmt.Errorf("missing authorization header")

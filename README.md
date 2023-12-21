@@ -2,18 +2,6 @@
 # Simple Bank
 
 
-4. In the 4th section, we will discuss several advanced backend topics such as managing user sessions, building gRPC APIs, using gRPC gateway to serve both gRPC and HTTP requests at the same time, embedding Swagger documentation as part of the backend service, partially updating a record using optional parameters, and writing structured logger HTTP middlewares and gRPC interceptors.
-
-5. Then the 5th section will introduce you to asynchronous processing in Golang using background workers and Redis as its message queue. We'll also learn how to create and send emails to users via Gmail SMTP server. Along the way, we'll learn more about writing unit tests for our gRPC services that might involve mocking multiple dependencies at once.
-
-6. The final section 6th concludes the course with lectures about how to improve the stability and security of the server. We'll keep updating dependency packages to the latest version, use Cookies to make the refresh token more secure, and learn how to gracefully shut down the server to protect the processing resources. As this part is still a work in progress, we will keep making and uploading new videos about new topics in the future. So please come back here to check them out from time to time.
-
-
-
-
-
-
-
 <!-- 
 # win 开发环境配置
 
@@ -208,9 +196,7 @@ docker network inspect bridge
 
 
 
-<!-- 
-
-# gRPC
+<!-- # gRPC
 
 1. 定义 proto 文件，并使用 protoc 生成 Go 代码
 2. 实现 gRPC server，并测试，evans
@@ -220,42 +206,33 @@ docker network inspect bridge
     call CreateUser 
     输入参数
 
-3. grpc gateway
+3. gRPC gateway
 https://github.com/grpc-ecosystem/grpc-gateway
 
 
 4. metadata 传递信息
 grpc 为啥这么多子包
 
-
 5. 参数校验（错误处理）
 
 6. 可选参数（db 操作）
 sql.NullString
 
+7. 认证授权
+http gateway 统一模板，只能放 gRPC 操作 jwt 鉴权
 
 
-50: 使用可选参数构建 gRPC 更新 API
-51: 添加保护 gRPC API 的授权
+8. 拦截器，打日志
+gRPC gateway 不会直接调用 gRPC client
+zerolog
 
- 
-
-52: 为 gRPC API 编写结构化日志
-
-53: 如何在 Go 中编写 HTTP 日志记录器中间件
-
-拦截器，打日志
 
  -->
 
 
 
-<!-- 异步 [Asynq + Redis]
+<!-- Asynq + Redis
 
-# Asynq + Redis
-
-
-第5节: 使用后台工作者进行异步处理[ Asynq + Redis ]
 54: 在 Go with Redis 和 Asynq 中实现后台 worker
 55: 将异步 worker 集成到 Go web 服务器
 56: 在 DB 事务中向 Redis 发送异步任务
@@ -266,20 +243,21 @@ sql.NullString
 61: Go 中的电子邮件验证: 设计数据库并发送电子邮件
 62: 在 Go 中实现电子邮件验证 API
 63: 使用模拟 DB 和 Redis 对 gRPC API 进行单元测试
-64: 如何测试需要身份验证的 gRPC API -->
+64: 如何测试需要身份验证的 gRPC API
+
+gmail email 文档
+https://support.google.com/accounts/answer/185833?visit_id=638387494011752633-2836232303&p=InvalidSecondFactor&rd=1
+
+ -->
 
 
 
-<!-- 第6部分: 提高服务器的稳定性和安全性
+<!-- 巩固、完善（稳定、安全）
 
 1. 处理 db 错误，匹配 http 状态码（别啥都是 500）
 2. docker-compose 启动不起来，那就多来几次
-
-
-70: 在 Go 中实现以角色为基础的存取控制(RBAC) 
-
+3. RBAC 基于角色的访问控制
 make new_migration name=add_role_to_users
-
 
 -->
 

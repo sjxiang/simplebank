@@ -8,25 +8,25 @@ import (
 )
 
 const (
-	smtpAuthAddress   = "smtp.gmail.com"
-	smtpServerAddress = "smtp.gmail.com:587"
+	smtpAuthAddress   = "smtp.gmail.com"      // 只负责认证，不传送邮件
+	smtpServerAddress = "smtp.gmail.com:587"  // 负责实际传送邮件的SMTP服务器地址及端口
 )
 
 type EmailSender interface {
 	SendEmail(
-		subject string,
-		content string,
-		to []string,
-		cc []string,
-		bcc []string,
-		attachFiles []string,
+		subject string,        // 邮箱主题
+		content string,        // 内容
+		to []string,           // 收件人邮箱地址
+		cc []string,           // 抄送（可见，套瓷多尴尬）
+		bcc []string,          // 抄送（不可见）
+		attachFiles []string,  // 附件
 	) error
 }
 
 type GmailSender struct {
-	name              string
-	fromEmailAddress  string
-	fromEmailPassword string
+	name              string  // 发件人（泛指）
+	fromEmailAddress  string  // 发件人邮箱地址
+	fromEmailPassword string  // 发件人邮箱密码
 }
 
 func NewGmailSender(name string, fromEmailAddress string, fromEmailPassword string) EmailSender {
@@ -56,7 +56,7 @@ func (sender *GmailSender) SendEmail(
 	for _, f := range attachFiles {
 		_, err := e.AttachFile(f)
 		if err != nil {
-			return fmt.Errorf("failed to attach file %s: %w", f, err)
+			return fmt.Errorf("failed to attach file %s: %w", f, err)  // 附加文件失败
 		}
 	}
 

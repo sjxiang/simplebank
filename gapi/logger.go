@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// 拦截器：打日志
 func GrpcLogger(
 	ctx context.Context,
 	req interface{},
@@ -18,6 +19,8 @@ func GrpcLogger(
 	handler grpc.UnaryHandler,
 ) (resp interface{}, err error) {
 	startTime := time.Now()
+	
+	// biz handle
 	result, err := handler(ctx, req)
 	duration := time.Since(startTime)
 
@@ -27,7 +30,9 @@ func GrpcLogger(
 	}
 
 	logger := log.Info()
+	// biz handle err
 	if err != nil {
+		// return event
 		logger = log.Error().Err(err)
 	}
 
@@ -41,6 +46,8 @@ func GrpcLogger(
 	return result, err
 }
 
+
+// 包裹，拷贝一份
 type ResponseRecorder struct {
 	http.ResponseWriter
 	StatusCode int

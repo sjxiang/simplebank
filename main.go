@@ -36,7 +36,7 @@ func main() {
 	}
 
 	if config.Environment == "development" {
-		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})  // 日志输出编码：console 或 json
 	}
 
 	// 连接 db
@@ -144,6 +144,8 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 	}
 
 	log.Info().Msgf("start HTTP gateway server at %s", listener.Addr().String())
+	
+	// 包一层中间件，http.HandlerFunc(func(res http.ResponseWriter, req *http.Request)
 	handler := gapi.HttpLogger(mux)
 	err = http.Serve(listener, handler)
 	if err != nil {

@@ -21,11 +21,15 @@ func TestSendEmailWithGmail(t *testing.T) {
 	subject := "A test email"
 	content := `
 	<h1>Hello world</h1>
-	<p>This is a test message from <a href="http://techschool.guru">Tech School</a></p>
+	<p>This is a test message from <a href="https://github.com/sjxiang">Sjxiang Github</a></p>
 	`
 	to := []string{"1535484943@qq.com"}
 	attachFiles := []string{"../README.md"}
 
 	err = sender.SendEmail(subject, content, to, nil, nil, attachFiles)
 	require.NoError(t, err)
+}
+
+func TestSendEmailWithQQ(t *testing.T) {
+	
 }
