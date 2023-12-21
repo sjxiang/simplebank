@@ -248,6 +248,13 @@ zerolog
 gmail email 文档
 https://support.google.com/accounts/answer/185833?visit_id=638387494011752633-2836232303&p=InvalidSecondFactor&rd=1
 
+
+.gitignore
+追踪记录缓存，需要清除
+git rm -r --cached .
+
+
+
  -->
 
 
