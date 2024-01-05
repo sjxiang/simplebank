@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"errors"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -18,4 +19,19 @@ func HashPassword(password string) (string, error) {
 // CheckPassword checks if the provided password is correct or not
 func CheckPassword(password string, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+}
+
+func PasswordMatches(password, plainText string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(plainText))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			// invalid password
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+
+	return true, nil
 }

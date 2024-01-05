@@ -49,15 +49,19 @@ func main() {
 	runDBMigration(config.MigrationURL, config.DBSource)
 
 	store := db.NewStore(connPool)
-
+	
 	redisOpt := asynq.RedisClientOpt{
 		Addr: config.RedisAddress,
 	}
 
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
+
+	// asynq broker
 	go runTaskProcessor(config, redisOpt, store)
+	// gateway
 	go runGatewayServer(config, store, taskDistributor)
 
+	// backend
 	runGrpcServer(config, store, taskDistributor)
 }
 
@@ -76,6 +80,7 @@ func runDBMigration(migrationURL string, dbSource string) {
 }
 
 func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+	// google email
 	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
 	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
@@ -91,8 +96,11 @@ func runGrpcServer(config util.Config, store db.Store, taskDistributor worker.Ta
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
 
-	gprcLogger := grpc.UnaryInterceptor(gapi.GrpcLogger)
-	grpcServer := grpc.NewServer(gprcLogger)
+	serverOptions := []grpc.ServerOption{
+		grpc.UnaryInterceptor(gapi.GrpcLogger),
+	}
+	// gprcLogger := grpc.UnaryInterceptor(gapi.GrpcLogger)
+	grpcServer := grpc.NewServer(serverOptions...)
 	pb.RegisterSimpleBankServer(grpcServer, server)
 	// 注册反射（方便 gRPC 客户端了解服务端有哪些可用 RPC，以及如何调用）
 	reflection.Register(grpcServer)
@@ -115,7 +123,7 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
 
-	// 参数，驼峰转下划线
+	// 请求参数，驼峰转下划线
 	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
 		MarshalOptions: protojson.MarshalOptions{
 			UseProtoNames: true,

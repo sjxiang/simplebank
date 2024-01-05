@@ -17,25 +17,14 @@ psql:
 dropdb:
 	docker exec -it postgres dropdb simple_bank
 
-
-mysql:
-	docker run --name mysql8 -p 3306:3306  -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0
-
-# 打开 mysql 控制台
-mysql_cli:
-	docker exec -it mysql8 bash 
-# mysql -uroot -psecret
-# create database simple_bank;
-
-
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
-migrateup1:
-	migrate -path db/migration -database "$(DB_URL)" -verbose up 1
-
 migratedown:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down
+
+migrateup1:
+	migrate -path db/migration -database "$(DB_URL)" -verbose up 1
 
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
@@ -62,7 +51,6 @@ proto:
 	--experimental_allow_proto3_optional \
 	--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
 	proto/*.proto
-# statik -src=./doc/swagger -dest=./doc
 
 
 # --{$plugin_name}_out={$out_dir} --{$plugin_name}_opt={$options}
@@ -81,6 +69,10 @@ evans:
 
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
+
+# 测试 redis 连通性
+# docker exec -it redis redis-cli ping
+ 
 
 # 区分 target 和目录下文件名
 .PHONY: network postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 new_migration db_docs db_schema sqlc test server mock proto evans redis

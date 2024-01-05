@@ -30,3 +30,24 @@ func (data *Data) execTx(ctx context.Context, fn func(*sql.Tx) error) error {
 	// 提交事务
 	return tx.Commit()
 }
+
+
+// defer func() {
+// 	if errTx := tx.Rollback(); errTx != nil {
+// 		if errors.Is(errTx, sql.ErrTxDone) {
+// 			return
+// 		}
+// 		err = fmt.Errorf("rollback: %w", errTx)
+// 		return
+// 	}
+// }()
+
+// if _, err := tx.Exec(seedDoc); err != nil {
+// 	return fmt.Errorf("exec: %w", err)
+// }
+
+// if err := tx.Commit(); err != nil {
+// 	return fmt.Errorf("commit: %w", err)
+// }
+
+// return nil

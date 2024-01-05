@@ -37,6 +37,8 @@ func TestJWTMaker(t *testing.T) {
 	require.WithinDuration(t, expiredAt, payload.ExpiredAt, time.Second)
 }
 
+
+// 测试过期 token
 func TestExpiredJWTToken(t *testing.T) {
 	maker, err := NewJWTMaker(util.RandomString(32))
 	require.NoError(t, err)
@@ -52,6 +54,8 @@ func TestExpiredJWTToken(t *testing.T) {
 	require.Nil(t, payload)
 }
 
+
+// 测试无效 token
 func TestInvalidJWTTokenAlgNone(t *testing.T) {
 	payload, err := NewPayload(util.RandomOwner(), util.DepositorRole, time.Minute)
 	require.NoError(t, err)

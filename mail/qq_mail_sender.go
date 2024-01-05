@@ -17,7 +17,7 @@ type QQMailSender struct {
 
 
 func NewQQMailSender(name string, fromEmailAddress string, fromEmailPassword string) EmailSender {
-	return &GmailSender{
+	return &QQMailSender{
 		name:              name,
 		fromEmailAddress:  fromEmailAddress,
 		fromEmailPassword: fromEmailPassword,
@@ -34,7 +34,7 @@ func (sender *QQMailSender) SendEmail(
 ) error {
 
 	m := mail.NewMessage()
-	m.SetHeader("From", fmt.Sprintf("%s <%s>", sender.name, sender.fromEmailAddress))  // 发件人 e.g. Simple Bank <sjxiang2023@gmail.com>
+	m.SetHeader("From", fmt.Sprintf("%s <%s>", sender.name, sender.fromEmailAddress))  
 	m.SetHeader("To", to...)
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", content)

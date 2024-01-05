@@ -15,6 +15,7 @@ const (
 	QueueDefault  = "default"
 )
 
+
 type TaskProcessor interface {
 	Start() error
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
@@ -33,13 +34,13 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 	server := asynq.NewServer(
 		redisOpt,
 		asynq.Config{
-			Queues: map[string]int{
+			Queues: map[string]int{  // 队列名称 + 优先级权重
 				QueueCritical: 10,
 				QueueDefault:  5,
 			},
+			// 打日志，方便调试
 			ErrorHandler: asynq.ErrorHandlerFunc(func(ctx context.Context, task *asynq.Task, err error) {
-				log.Error().Err(err).Str("type", task.Type()).
-					Bytes("payload", task.Payload()).Msg("process task failed")
+				log.Error().Err(err).Str("type", task.Type()).Bytes("payload", task.Payload()).Msg("process task failed")
 			}),
 			Logger: logger,
 		},
@@ -52,10 +53,11 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 	}
 }
 
+// 启动 Asynq Server
 func (processor *RedisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
 
-	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
+	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)  // 注册（路由 + handler）
 
 	return processor.server.Start(mux)
 }

@@ -4,7 +4,7 @@ import "context"
 
 type CreateUserTxParams struct {
 	CreateUserParams
-	// 钩子、回调
+	// 勾子
 	AfterCreate func(user User) error
 }
 

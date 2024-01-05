@@ -231,31 +231,9 @@ zerolog
 
 
 
-<!-- Asynq + Redis
-
-54: 在 Go with Redis 和 Asynq 中实现后台 worker
-55: 将异步 worker 集成到 Go web 服务器
-56: 在 DB 事务中向 Redis 发送异步任务
-57: 如何为 Go Asynq 工作者处理错误和打印日志
-58: 稍微延迟一下可能对异步任务有好处
-59: 如何通过 Gmail 发送电子邮件
-60: 如何在 Go 中跳过测试，在 vscode 中配置测试标志
-61: Go 中的电子邮件验证: 设计数据库并发送电子邮件
-62: 在 Go 中实现电子邮件验证 API
-63: 使用模拟 DB 和 Redis 对 gRPC API 进行单元测试
-64: 如何测试需要身份验证的 gRPC API
-
-gmail email 文档
-https://support.google.com/accounts/answer/185833?visit_id=638387494011752633-2836232303&p=InvalidSecondFactor&rd=1
-
-
-.gitignore
-追踪记录缓存，需要清除
-git rm -r --cached .
-
-
-
- -->
+<!-- 支持用户管理，支持**多种用户登录注册方式**
+    + 邮箱登录注册（支持注册邮箱白名单）以及通过邮箱进行密码重置。
+    + [GitHub 开放授权](https://github.com/settings/applications/new)。 -->
 
 
 
@@ -268,3 +246,39 @@ make new_migration name=add_role_to_users
 
 -->
 
+<!-- 
+# 首选项 - 设置 - 搜索 protoc - vscode-proto3 扩展设置 - settings.json
+
+```json
+"protoc": {
+    "options": [
+        "--proto_path=proto",
+        "--proto_path=idl"
+    ]
+},
+
+相对于当前 workspace，
+```
+
+
+# 首选项 - 设置 - 搜索 go test flag - go 扩展 - settings.json
+
+```json
+
+"go.testFlags": [
+    "-v",
+    "-count=1"
+]
+
+
+-v 详情
+-count=1 禁用测试缓存
+
+```
+
+
+# github 
+
+.gitignore
+追踪记录缓存，需要清除
+git rm -r --cached . -->

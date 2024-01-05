@@ -36,8 +36,8 @@ func (sender *GmailSender) SendEmail(
 	attachFiles []string,
 ) error {
 	e := email.NewEmail()
-	e.From = fmt.Sprintf("%s <%s>", sender.name, sender.fromEmailAddress)
-	e.Subject = subject
+	e.From = fmt.Sprintf("%s <%s>", sender.name, sender.fromEmailAddress)  // 发件人 SimpleBank Education <no-reply@gmail.com>
+	e.Subject = subject  // 主题 Welcome to SimpleBank Education 
 	e.HTML = []byte(content)
 	e.To = to
 	e.Cc = cc

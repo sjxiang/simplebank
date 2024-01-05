@@ -7,13 +7,12 @@ import (
 )
 
 var (
-	// 昵称（小写字母、数字、下划线）
 	isValidUsername = regexp.MustCompile(`^[a-z0-9_]+$`).MatchString
-	// 姓名（大小写字母、）
 	isValidFullName = regexp.MustCompile(`^[a-zA-Z\s]+$`).MatchString
 )
 
-// 辅助
+
+// 检查字符长度
 func ValidateString(value string, minLength int, maxLength int) error {
 	n := len(value)
 	if n < minLength || n > maxLength {
@@ -23,13 +22,11 @@ func ValidateString(value string, minLength int, maxLength int) error {
 }
 
 func ValidateUsername(value string) error {
-	// 先验证长度
 	if err := ValidateString(value, 3, 100); err != nil {
 		return err
 	}
-	// 再校验是否合规
 	if !isValidUsername(value) {
-		return fmt.Errorf("只能有小写字母、数字或下划线组成")
+		return fmt.Errorf("只能由小写字母、数字或下划线组成")
 	}
 	return nil
 }
@@ -39,7 +36,7 @@ func ValidateFullName(value string) error {
 		return err
 	}
 	if !isValidFullName(value) {
-		return fmt.Errorf("只能有字母或空格组成")
+		return fmt.Errorf("只能由字母或空格组成")
 	}
 	return nil
 }
@@ -70,3 +67,4 @@ func ValidateEmailId(value int64) error {
 func ValidateSecretCode(value string) error {
 	return ValidateString(value, 32, 128)
 }
+

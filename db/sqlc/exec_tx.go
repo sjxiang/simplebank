@@ -5,7 +5,6 @@ import (
 	"fmt"
 )
 
-// ExecTx executes a function within a database transaction
 func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) error {
 	// 开启事务
 	tx, err := store.connPool.Begin(ctx)
@@ -13,8 +12,8 @@ func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) erro
 		return err
 	}
 
-	// sql.Tx
 	q := New(tx)
+
 	err = fn(q)
 	if err != nil {
 		// 事务失败，回滚失败

@@ -18,14 +18,15 @@ type Config struct {
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	
 	// 这个都能映射，666
-	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
-	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
-	EmailSenderName      string        `mapstructure:"EMAIL_SENDER_NAME"`
-	EmailSenderAddress   string        `mapstructure:"EMAIL_SENDER_ADDRESS"`
-	EmailSenderPassword  string        `mapstructure:"EMAIL_SENDER_PASSWORD"`
-	BackupEmailSenderName      string  `mapstructure:"BACKUP_EMAIL_SENDER_NAME"`
-	BackupEmailSenderAddress   string  `mapstructure:"BACKUP_EMAIL_SENDER_ADDRESS"`
-	BackupEmailSenderPassword  string  `mapstructure:"BACKUP_EMAIL_SENDER_PASSWORD"`
+	AccessTokenDuration    time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
+	RefreshTokenDuration   time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
+	
+	EmailSenderName        string        `mapstructure:"EMAIL_SENDER_NAME"`
+	EmailSenderAddress     string        `mapstructure:"EMAIL_SENDER_ADDRESS"`
+	EmailSenderPassword    string        `mapstructure:"EMAIL_SENDER_PASSWORD"`
+	QQEmailSenderName      string        `mapstructure:"QQ_EMAIL_SENDER_NAME"`
+	QQEmailSenderAddress   string        `mapstructure:"QQ_EMAIL_SENDER_ADDRESS"`
+	QQEmailSenderPassword  string        `mapstructure:"QQ_EMAIL_SENDER_PASSWORD"`
 }
 
 // LoadConfig reads configuration from file or environment variables.

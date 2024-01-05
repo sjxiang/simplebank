@@ -12,8 +12,8 @@ import (
 
 // 对比下 po 和 dto 字段
 type createAccountRequest struct {
-	Currency string `json:"currency" binding:"required,currency"`  // 开户，仅允许指定币种
-	// Currency string `json:"currency" binding:"required,oneof=btc eth"`  // 二选一
+	Currency string `json:"currency" binding:"required,currency"`  // 开户，自定义 tag 仅允许指定币种
+	// Currency string `json:"currency" binding:"required,oneof=btc eth"`  // 内嵌 tag，二选一
 }
 
 // POST /accounts
@@ -24,7 +24,6 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 
-	// aop 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	arg := db.CreateAccountParams{
 		Owner:    authPayload.Username,

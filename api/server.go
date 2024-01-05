@@ -12,7 +12,6 @@ import (
 	"github.com/sjxiang/simplebank/util"
 )
 
-// Server serves HTTP requests for our banking service.
 type Server struct {
 	config     util.Config
 	store      db.Store
@@ -20,9 +19,8 @@ type Server struct {
 	router     *gin.Engine
 }
 
-// NewServer creates a new HTTP server and set up routing.
 func NewServer(config util.Config, store db.Store) (*Server, error) {
-	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+	tokenMaker, err := token.NewJWTMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
 	}
@@ -33,7 +31,7 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 		tokenMaker: tokenMaker,
 	}
 
-	// 字段校验，注册
+	// 字段校验，注册（tag 标签 validate）
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
@@ -62,7 +60,6 @@ func (server *Server) setupRouter() {
 	server.router = router
 }
 
-// Start runs the HTTP server on a specific address.
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
 }
