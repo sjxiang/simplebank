@@ -192,6 +192,15 @@ docker network inspect bridge
 容器加入网络
     docker network connect bank-network <container_name_or_id>
 
+
+3. docker 卷
+docker volume ls
+docker volume rm <vloume_id>
+
+
+docker-compose 
+    容器内 IP 漂移，viper 还是要读取环境变量，覆盖 .env 文件，确保万无一失
+
  -->
 
 
@@ -218,8 +227,8 @@ grpc 为啥这么多子包
 6. 可选参数（db 操作）
 sql.NullString
 
-7. 认证授权
-http gateway 统一模板，只能放 gRPC 操作 jwt 鉴权
+7. 认证鉴权
+http gateway 统一模板，只能放 gRPC 操作 jwt，RBAC 鉴权
 
 
 8. 拦截器，打日志
@@ -230,23 +239,9 @@ zerolog
  -->
 
 
-
-<!-- 支持用户管理，支持**多种用户登录注册方式**
-    + 邮箱登录注册（支持注册邮箱白名单）以及通过邮箱进行密码重置。
-    + [GitHub 开放授权](https://github.com/settings/applications/new)。 -->
-
-
-
-<!-- 巩固、完善（稳定、安全）
-
-1. 处理 db 错误，匹配 http 状态码（别啥都是 500）
-2. docker-compose 启动不起来，那就多来几次
-3. RBAC 基于角色的访问控制
-make new_migration name=add_role_to_users
-
--->
-
 <!-- 
+
+
 # 首选项 - 设置 - 搜索 protoc - vscode-proto3 扩展设置 - settings.json
 
 ```json

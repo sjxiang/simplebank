@@ -51,6 +51,7 @@ func (server *Server) authorizeUser(ctx context.Context, accessibleRoles []strin
 	return payload, nil
 }
 
+// 权限
 func hasPermission(userRole string, accessibleRoles []string) bool {
 	for _, role := range accessibleRoles {
 		if userRole == role {

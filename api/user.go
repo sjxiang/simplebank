@@ -68,7 +68,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	// 发送验证
+	// 邮件验证
 
 	// rsp :=  user.ExportForFeedback()
 	
